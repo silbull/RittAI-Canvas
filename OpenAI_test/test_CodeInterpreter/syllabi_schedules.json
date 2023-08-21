@@ -1,0 +1,83 @@
+{
+    "22256014": {
+        "Meta": {
+            "name": "信号とシステムⅠ(EC)",
+            "teachers": "多喜川良",
+            "year": 2022,
+            "URL": "https://ku-portal.kyushu-u.ac.jp/campusweb/slbssbdr.do?value(risyunen)=2022&value(semekikn)=1&value(kougicd)=22256014&value(crclumcd)=ZZ"
+        },
+        "Data": {
+            "objectives_Jap": "信号処理は,音声・画像処理,通信,制御,計測などの工学分野だけでなく,医用,経済など幅広い分野で必要不可欠な必須技術であり,その重要性はますます増大している.この信号処理技術を支える基盤が信号の理論とシステムの理論である.信号とシステムIでは主として連続時間システムを学び.信号とシステムIIでは離散時間システムを学ぶ.",
+            "objectives_Eng": "Analog and digital signal processings are fundamental techniques in engineering such as voice and image processing,communications,instrumentation,and control.Understanding of signal processing is also important in biomedical engineering and economics.Signals and systems is a subject in which we learn mathematics of signal processing.In the fall term,we mainly learn continuous-time systems.In the winter term,we learn discrete-time systems.",
+            "description": null,
+            "schedule": {
+                "1": "信号とシステムの概要:この授業で何を学ぶかを概説する.",
+                "2": "フーリエ級数:周期的信号の基本的解析方法であるフーリエ級数を復習する.",
+                "3": "フーリエ変換:非周期的信号が対象であるフーリエ変換を導入し,その基本的性質を学ぶ.",
+                "4": "畳み込み積分:線形システムを表現するための畳み込み積分を詳説する.",
+                "5": "Diracのδ関数,連続スペクトルと線スペクトル:超関数の例としてδ関数を導入し,連続スペクトルと線スペクトルについて学ぶ.",
+                "6": "連続時間線形時不変システム:連続時間線形時不変システムを導入し,その入出力と伝達関数の関係を論じる.",
+                "7": "ラプラス変換:ラプラス変換を導入し,その基本的性質を論じる.",
+                "8": "交流回路:コイル,コンデンサ,抵抗からなる交流回路の応答について線形システムの観点から論じる."
+            }
+        }
+    },
+    "23250116": {
+        "Meta": {
+            "name": "ディジタル信号処理Ⅰ(CM・EE)",
+            "teachers": "島田敬士",
+            "year": 2023,
+            "URL": "https://ku-portal.kyushu-u.ac.jp/campusweb/slbssbdr.do?value(risyunen)=2023&value(semekikn)=1&value(kougicd)=23250116&value(crclumcd)="
+        },
+        "Data": {
+            "objectives_Jap": "ディジタル的な処理手法によって信号を処理するディジタル信号処理技術は,高精度,高信頼性,処理の柔軟さなど,多くの利点をもっており,現在では幅広い分野で共通的な信号処理手法として利用されている.本講義では,ディジタル信号処理を理解し,活用するための基礎的な理論を学び,各分野での応用に備えさせる.以下に講義内容を示す.1.フーリエ変換,帯域制限信号と標本化定理(復習)2.離散時間信号(基本的な信号)と信号の基本的な演算3.離散時間信号のフーリエ変換と諸性質4.離散フーリエ変換対と高速フーリエ変換(FFT)5.離散時間システム(線形性,時不変性,因果性,インパルス応答,安定性)6.線形時不変システム基本的に,ノートに記述してもらいながら講義を行い,その後講義内容に関する小テストを行う.また,講義の理解を深めるために,定期的に演習を実施する.",
+            "objectives_Eng": "The course \"Digital signal processing\" gives an introduction into discrete-time signals and systems.It covers methods for analyzing discrete-time signals and systems.It also provides how to design systems and to process signals for solving practical problems.1.Basics of digital signal processing:sampling theorem,and reconstruction of band limited signal2.Discrete-time signal3.Discrete-time Fourier transform and its propertie4.Discrete and fast Fourier transform5.Discrete-time system6.Linear time-invariant (LTI) systems and its properties,impluse responsecorrelation Functions and power Spectrum estimation",
+            "description": null,
+            "schedule": {
+                "1": "概要:ディジタル信号処理の概要",
+                "2": "離散時間信号解析:周期信号とフーリエ級数",
+                "3": "離散時間信号解析:非周期信号とフーリエ変換",
+                "4": "離散時間信号解析:連続時間信号の標本化",
+                "5": "離散時間信号解析:離散時間信号とZ変換",
+                "6": "離散時間信号解析:Z変換の性質",
+                "7": "離散時間信号解析:逆Z変換",
+                "8": "まとめ:授業振り返り"
+            }
+        }
+    },
+    "22256039": {
+        "Meta": {
+            "name": "形式言語とオートマトンⅠ",
+            "teachers": "山内由紀子",
+            "year": 2022,
+            "URL": "https://ku-portal.kyushu-u.ac.jp/campusweb/slbssbdr.do?value(risyunen)=2022&value(semekikn)=1&value(kougicd)=22256039&value(crclumcd)=ZZ"
+        },
+        "Data": {
+            "objectives_Jap": "本講義では,有限オートマトン,正規表現,正規言語に現れる基礎的な概念について説明し,多くの例を用いて理解を深める.具体的には,数学的準備,オートマトンと形式文法,情報工学におけるオートマトンと形式文法の理論の位置づけ,情報工学におけるオートマトンと形式文法の理論の応用について述べた後,有限オートマトンと正規文法,決定性有限オートマトン,非決定性,正規表現,正規文法,正規言語の特徴付け,有限オートマトンの最小化について教授する.",
+            "objectives_Eng": "In this lecture,we explain basic concepts that appear in this theory,such as finite automata,pushdown automata,Turing machine,regular expression,regular language,context freegrammar,phrase structure grammar,and deepen understanding using many examples.",
+            "description": null,
+            "schedule": {
+                "1": "概論:A1)理論の位置づけと情報工学への応用",
+                "2": "オートマトン:A2)有限オートマトンと正規文法",
+                "3": "オートマトン:2a)決定性有限オートマトン",
+                "4": "正規/正則性:2b)非決定性.2c)正規表現",
+                "5": "正規/正則性:2d)正規文法",
+                "6": "言語の特徴:2e)正規言語の特徴付け",
+                "7": "オートマトン発展:2f)有限オートマトンの最小化",
+                "8": "まとめ:復習"
+            }
+        }
+    }
+}
+
+以上のjsonファイルは九州大学の3つの講義のシラバスです．すべての講義は8回分の構成です．
+"Data"の中の"objectives_Jap", "objectives_Eng", "description"に授業の概要が書かれています．
+"Data"の中の"schedule"に各授業回ごとの内容が書かれています．
+これらの情報をもとにして，内容の似ている各授業回のペアを探してください．
+例えば，「"ディジタル信号処理Ⅰ(CM・EE)"の第2回と"信号とシステムⅠ(EC)"の第3回は内容が近い」などの羅列を出力として期待します．
+
+以上のjsonファイルは九州大学の3つの講義のシラバスです．すべての講義は8回分の構成です．
+"Data"の中の"objectives_Jap", "objectives_Eng", "description"に授業の概要が書かれています．
+"Data"の中の"schedule"に各授業回ごとの内容が書かれています．
+これらの情報をもとにして，各授業回間の類似度を計算し，ヒートマップを作成してください．
+24*24の対称行列と24*24の大きさのヒートマップを出力として期待します．
