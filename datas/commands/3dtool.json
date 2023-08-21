@@ -1,0 +1,99 @@
+[
+    {
+        "question": "頂点Bから線分DFに引いた垂線",
+        "jap": "垂線",
+        "tool": "Perpendicular Line Tool",
+        "command": "PerpendicularLine",
+        "argument": [
+            "<Point>, <Line>",
+            "<Point>, <Segment>",
+            "<Point>, <Vector>",
+            "<Point>, <Plane>",
+            "<Line> , <Line>",
+            "<Point>, <Direction>, <Direction>",
+            "<Point>, <Line>, <Context>"
+                    ]
+
+    },
+
+    {
+        "question": "線分ABと線分CDの交点I",
+        "jap": "交点",
+        "tool": "Intersect tool",
+        "command": "Intersect",
+        "argument": [
+            "<Object>, <Object>"
+        ]
+
+    },
+
+    {
+        "question": "線分ABと線分CDの交点I",
+        "jap": "線分",
+        "tool": "Segment Tool",
+        "command": "Segment",
+        "argument": [
+            "<Point>, <Point>"
+        ]
+    },
+
+    {
+        "question": "点Aを通って線分CDに平行な直線",
+        "jap": "平行",
+        "tool": "Parallel Line Tool",
+        "command": "Line",
+        "argument": [
+            "<Point>, <Parallel Line>"
+        ]
+
+
+    },
+
+    {
+        "jap": "角形",
+        "tool": "Polygon tool",
+        "command": "Polygon command",
+        "argument": [
+            "<Point>, ..., <Point>",
+            "<Point>, <Point>, <Number of Vertices n>, <Direction>" 
+        ]
+    },
+
+    {
+        "question": "底面の半径が 3 cm の円すい",
+        "jap": [    
+            "円錐",
+            "円すい"
+        ],
+        "tool": "Cone Tool",
+        "command": "Cone",
+        "argument":[
+            "<Circle>, <Height>",
+            "<Point>, <Point>, <Radius>"
+        ]
+    },
+
+    {
+        "question": "底面の半径が 1 cm，高さが 4 cm の円柱",
+        "jap": "円柱",
+        "tool": "Cylinder tool",
+        "command": "Cylinder",
+        "argument": [
+            "<Circle>, <Height> ",
+            "<Point>, <Point>, <Radius>"
+        ]
+    },
+
+    {
+        "question": "辺 DC を軸として 1回転させてできる立体の体積",
+        "jap": [
+            "軸",
+            "1回転"
+        ],
+        "tool": "Surface Of Revolution Tool",
+        "command": "Surface",
+        "argument":[
+            "<Object>, 360, <Line>"
+        ]
+    }
+]
