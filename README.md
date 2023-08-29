@@ -37,6 +37,6 @@
 OpenAI API 関係のプログラムを実行するためにはAPIキーが必要です．
 フォルダ下のどこでも良いので`.env`ファイルを作成し，APIキーを環境変数として登録してください．
 
-```.env
+```.env:.env
 OPENAI_API_KEY = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ```
