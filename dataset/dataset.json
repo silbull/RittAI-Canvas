@@ -66,7 +66,7 @@
         ],
         "URL": "https://zaitaku-study.net/wp-content/uploads/2020/10/6bbe8f18db84ea26448a7a831d4a1971.pdf",
         "script":[
-            "O1 = (0, 0, 0), Cone1Base = Circle(O1, 3), Cone1 = Cone(Cone1Base, 4), O2 = (0, 0, 0), Cylinder1Base = Circle(O2, 1), Cylinder1 = Cylinder(Cylinder1Base, 2.7), A = (0, 0, 4), B = (3, 0, 0), C = (1, 0, 0), Segment(A, B), Segment(A, C), Apex = (0, 0, 12), Segment(Apex, O1), "
+            "BaseCone = Circle((0,0), 3), BaseCylinder = Circle((0,0), 1), SideCone = Cone(BaseCone, 4), SideCylinder = Cylinder(BaseCylinder, 4)"
         ]
     },
     {
