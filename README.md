@@ -6,11 +6,11 @@
 
 フォルダ構成は以下のようになっています．(記入日23.8.29)
 
-#### .codebox
+### .codebox
 Code Interpreter API実行時に作られるフォルダなので，気にしなくて良いです．
-#### .vscode
-#### code_interpreter_test
-#### datas
+### .vscode
+### code_interpreter_test
+### datas
 #### GINZA_test
 #### miyawaki_prompt
 #### OpenAI_test
