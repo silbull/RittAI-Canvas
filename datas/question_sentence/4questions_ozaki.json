@@ -1,7 +1,8 @@
 {
     "1":{
         "question": "1辺8の立方体ABCD-EFGHにおいて、AD、CDの中点をそれぞれM、Nとする。立方体の対角線BHと四角形MEGNの交点をPとするとき、線分BPの長さを求めよ。",
-        "English": "In a cube ABCD-EFGH of side 8, let M and N be the midpoints of AD and CD, respectively. Let P be the intersection of the cube's diagonal BH and the quadrilateral MEGN, and find the length of the line segment BP."
+        "English": "In a cube ABCD-EFGH of side 8, let M and N be the midpoints of AD and CD, respectively. Let P be the intersection of the cube's diagonal BH and the quadrilateral MEGN, and find the length of the line segment BP.",
+        "url": "https://jhs-math.komaro.net/nyushi-taisaku/setsudanmen-kyori1/"
     },
     "2":{
         "question": "1辺が4の立方体ABCD-EFGHで、辺AEの中点をM、辺CGの中点をNとする。四角形DMFNの面積を求めよ。"
