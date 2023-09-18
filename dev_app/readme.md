@@ -55,7 +55,8 @@ npm run build
 
 ### 2. Flaskの実行
 
-`~/backend/run.py`あるいは`~/backend/app/app.py`を実行することで，Flaskサーバが起動する．後者はデバッグモードで起動する．
+`~/backend/run.py`あるいは`~/backend/app/app.py`を実行することで，Flaskサーバが起動する．後者はデバッグモードで起動する．  
+> **23/9/8現在，後者のデバッグモードでの起動にしか対応していません．**
 
 ```zsh:
 cd backend
@@ -64,8 +65,8 @@ python run.py
 
 あるいは
 ```zsh:
-cd backend/app
-python app.py 
+cd dev_app
+python backend/app/app.py 
 ```
 
 ### 3. サーバにアクセス

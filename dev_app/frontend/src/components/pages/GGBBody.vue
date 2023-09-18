@@ -49,14 +49,39 @@
 <template>
     <!-- デバッグ -->
     <!-- <div>script_modified_props: {{ script_modified_props }}</div>  -->
-    <button @click="deleteAllObjects()">Reset</button>
-    <div class="geogebra_01" id="ggb-element">ggb-elementが表示できません.</div>
-    <p>EOF</p>
+    <div class="container-003">
+        <button class="button-reset" @click="deleteAllObjects()">Reset</button>
+        <div class="geogebra_01" id="ggb-element">ggb-elementが表示できません.</div>
+    </div>
 </template>
 
 <style scoped>
     .geogebra_01 {
-        width: 100vw;
-        height: 70vh;
+        width: 78vw;
+        height: 76vh;
+    }
+
+    .button-reset {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 20px;
+    margin-bottom: 5px;
+    padding: .9em 2em;
+    border: none;
+    border-radius: 25px;
+    background-color: #80b6d0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+}
+.button-reset:hover {
+    background-color: #5d8ba1;
+}
+
+    .container-003{
+        display: flex;
+        flex-direction: column;
     }
 </style>
