@@ -36,7 +36,7 @@ def Push2GPT():
         input = request.get_json()["input"]
 
         system_prompt = """I enter a math problem statement in Japanese. Please, generate a GeoGebra Script to visualize it. 
-        Never abide by the following 2 rules:
+        Always abide by the following 2 rules:
         1. if the exact coordinates are to be determined from the length, this can be done by solving the following equations.
         Example
         A(Xa,Ya),B(Xb,Yb),a=BC,b=AC, C = (x, y)
