@@ -1,0 +1,115 @@
+【INPUT】['ディジタル信号処理(A,C)', '島田敬士', '前期金曜日2時限']
+【name】
+ディジタル信号処理(A,C)
+【description】
+ディジタル的な処理手法によって信号を処理するディジタル信号処理技術は,高精度,高信頼性,処理の柔軟さなど,多くの利点をもっており,現在では幅広い分野で共通的な信号処理手法として利用されている.本講義では,ディジタル信号処理を理解し,活用するための基礎的な理論を学び,各分野での応用に備えさせる.以下に講義内容を示す.1.フーリエ変換,帯域制限信号と標本化定理(復習)
+2.離散時間信号(基本的な信号)と信号の基本的な演算
+3.離散時間信号のフーリエ変換と諸性質
+4.離散フーリエ変換対と高速フーリエ変換(FFT)
+5.離散時間システム(線形性,時不変性,因果性,インパルス応答,安定性)
+6.〃
+7.離散時間システムの入出力関係式,システムの結合
+8.差分方程式によって記述される離散時間システム
+9.離散時間システムの周波数応答,振幅特性,位相特性
+10.z変換による離散時間システムの解析-伝達関数,システムの結合,安定性条件など
+11.ディジタルフィルタの設計
+12.離散時間の不規則信号と定常確率過程,相関関数とパワースペクトル
+The course "Digital signal processing" gives an introduction into discrete-time signals and systems.It covers methods for analyzing discrete-time signals and systems.It also provides how to design systems and to process signals for solving practical problems.1.Basics of digital signal processing:
+sampling theorem,and reconstruction of band limited signal
+2.Discrete-time signal
+3.Discrete-time Fourier transform and its propertie
+4.Discrete and fast Fourier transform
+5.Discrete-time system
+6.Linear time-invariant (LTI) systems and its properties,impluse response
+7.Difference equation ans system functions - I
+8.Difference equation ans system functions - II
+9.Frequency response of linear time-invariant system
+10.Z-transform,analysis of LTI systems in the z-domain
+11.Digital filter design
+12.Applications of digital signal processing:
+correlation Functions and power Spectrum estimation
+【keywords】
+ディジタル信号処理,フーリエ変換,離散時間信号,離散時間システム,離散フーリエ変換,差分方程式,周波数応答,z変換
+【schedule】
+PART1 ['第1回ディジタル信号処理の概要', '◯', '演習も実施', '']
+PART2 ['第27回離散時間信号解析.\n(1)周期信号とフーリエ級数.\n(2)非周期信号とフーリエ変換.\n(3)連続時間信号の標本化.\n(4)離散時間信号とZ変換.\n(5)Z変換の性質,逆Z変換.\n(6)ここまでのまとめ', '◯', '演習も実施', '']
+PART3 ['第812回離散時間システム.\n(1)離散時間システム(線形時不変システム,インパルス応答,差分方程式).\n(2)離散時間システム(システム関数,周波数特性).\n(3)離散フーリエ変換.\n(4)高速フーリエ変換.\n(5)ここまでのまとめ', '◯', '演習も実施', '']
+PART4 ['第1315回フィルタ.\n(1)FIRディジタルフィルタの設計.\n(2)IIRディジタルフィルタの設計.\n(3)まとめ', '◯', '演習も実施', '']
+PARTNo ['進度・内容・行動目標', '講義', '演習・その他', '授業時間外学習']
+【bow】
+('ディジタル', 7)
+('手法', 2)
+('処理手法', 1)
+('信号', 11)
+('精度', 1)
+('信頼性', 1)
+('処理', 5)
+('利点', 1)
+('現在', 1)
+('共通', 1)
+('信号処理手法', 1)
+('信号処理', 3)
+('変換', 13)
+('フーリエ変換', 4)
+('帯域制限信号', 1)
+('定理', 1)
+('標本化定理', 1)
+('復習', 1)
+('離散時間信号', 4)
+('演算', 1)
+('性質', 2)
+('諸性質', 1)
+('対', 1)
+('離散フーリエ変換対', 1)
+('高速フーリエ変換', 2)
+('システム', 12)
+('離散時間システム', 9)
+('因果性', 1)
+('応答', 4)
+('インパルス応答', 2)
+('安定性', 1)
+('関係式', 1)
+('入出力関係式', 1)
+('結合', 2)
+('方程式', 3)
+('差分方程式', 3)
+('周波数応答', 2)
+('特性', 3)
+('振幅特性', 1)
+('位相z変換', 1)
+('関数', 2)
+('解析伝達関数', 1)
+('条件', 1)
+('安定性条件', 1)
+('フィルタ', 4)
+('設計', 3)
+('時間', 1)
+('離散時間', 1)
+('不規則信号', 1)
+('過程', 1)
+('確率過程', 1)
+('相関関数', 1)
+('パワースペクトル"', 1)
+('離散フーリエ変換', 2)
+('z変換', 3)
+('ディジタル信号処理', 1)
+('概要', 1)
+('演習', 5)
+('実施', 4)
+('解析', 1)
+('離散時間信号解析', 1)
+('周期信号', 1)
+('級数', 1)
+('フーリエ級数', 1)
+('非周期信号', 1)
+('連続時間信号', 1)
+('標本化', 1)
+('逆z変換', 1)
+('まとめ', 3)
+('iirディジタル', 1)
+('進度', 1)
+('目標', 1)
+('行動目標', 1)
+('専攻', 1)
+('時間外学習専攻', 1)
+
