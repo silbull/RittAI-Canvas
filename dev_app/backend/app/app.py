@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import json, pprint
 import sys, os
 from pathlib import Path
+from PIL import Image
+import pyocr
 
 from controllers.MakeScript import ChatCompletion
 
@@ -28,6 +30,23 @@ app = Flask(
 @app.route("/")
 def hello():
     return render_template("index.html")
+
+# 画像を受け取り，OCRを行なってテキストを返す
+@app.route('/run_ocr', methods = ["GET", "POST"])
+def RunOCR():
+    if request.method == "POST":
+        # OCRエンジンを取得
+        engines = pyocr.get_available_tools()
+        engine = engines[0]
+        # 対応言語取得
+        langs = engine.get_available_languages()
+        # 画像の文字を読み込む
+        image = Image.open(request.files["image"])
+        text = engine.image_to_string(image, lang="jpn")
+        return jsonify({"text": text})
+    else:
+        return("method == GET")
+
 
 # 問題文を受け取ってopenai.ChatCompletion.creatに渡す
 @app.route('/push2gpt', methods = ["GET", "POST"])
@@ -112,7 +131,7 @@ def Push2GPT():
         # output = "Here is Python Push2GPT"
 
         result = {"output": output}
-        json_object = json.dumps(result, indent = 4)
+        json_object = json.dumps(result, indent = 4) 
         return(json_object)
     else:
         return("method == GET")

@@ -1,5 +1,5 @@
 # %%
-import json, ndjson, pprint
+import ndjson, pprint
 from dotenv import load_dotenv
 
 import openai

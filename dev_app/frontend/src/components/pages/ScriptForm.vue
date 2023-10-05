@@ -8,17 +8,17 @@
     // 親コンポーネントからのscript_propsの変更を監視し，変更があればscript_textも更新するwatch．
     // v-modelにscript_textをバインドするために必要．
     watch(
-        () => props.script_props,
-        (newValue) => {
+        () => props.script_props, // 監視する変数
+        (newValue) => { // 変更があった場合に実行する関数
             script_text.value = newValue;
         }
     );
     
-    // 子コンポーネントでの動作を親コンポーネントに伝達させて，親コンポーネントでイベント発火させるためのemit
-    const emit = defineEmits(['notify']);
-    // 親コンポーネントに動作を伝達させる関数，'input-submitted'は親コンポーネントでのイベントトリガー名
+    // emitの定義
+    const emit = defineEmits(['script-submitted']);
+    // 親コンポーネントに動作を伝達させる関数，'script-submitted'は親コンポーネント(FormsBody.vue)でのイベントトリガー名
     function handleSubmit() {
-        emit('input-submitted', script_text.value);
+        emit('script-submitted', script_text.value);
     }
 </script>
 

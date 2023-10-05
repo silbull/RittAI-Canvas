@@ -10,7 +10,7 @@
     const completionState = ref("問題文を入力してください")
 
     // バックエンドにリクエストを投げる関数．第1引数はbodyに入れるデータ．pathは第2引数で指定する．
-    const SendString2Backend = function(data, path=""){
+    const SendString2Backend = (data, path="") => {
         // 入力が空白だったら無視
         if(data == ""){
             completionState.value = "問題文が入力されていません"
@@ -23,9 +23,9 @@
             path, // flask APIのパスを指定
             {
                 method: 'POST',
-                body: JSON.stringify({"input": data}),
+                body: JSON.stringify({"input": data}), //dataをjsonに変換して送信
                 headers:{
-                    "Content-type": "application/json; charset=UTF-8"
+                    "Content-type": "application/json; charset=UTF-8" // jsonかつUTF-8で送信
                 }
             } // postのボディ
         ).then(res => res.json()).then( 
@@ -36,17 +36,17 @@
 
                 completionState.value = "Completed"
 
-                scriptText.value = output;
+                scriptText.value = output; // scriptTextに出力を代入
                 console.log(`in SendString2Backend(${path}) scriptText.value: ` + scriptText.value);
             }
-        )
+        ).catch(error => console.error('Error:', error)); // エラー処理
     }
 
     // 子コンポーネントでの動作を親コンポーネントに伝達させて，親コンポーネントでイベント発火させるためのemit
     const emit = defineEmits(['notify']);
-    // 親コンポーネントに動作を伝達させる関数，'input-submitted'は親コンポーネントでのイベントトリガー名
+    // 親コンポーネントに動作を伝達させる関数，'ggbscript-to-model'は親コンポーネントでのイベントトリガー名
     function handleSubmit(data) {
-        emit('input-submitted', data);
+        emit('ggbscript-to-model', data);
         console.log(`in FormsBody.vue in handleSubmit(data) data: ` + data);
     }
 </script>
@@ -55,7 +55,7 @@
     <div class="container-002">
         <QuestionForm class="question_form-001" @input-submitted="data => SendString2Backend(data, '/push2gpt')"/>
             <div class="balloon-002">{{ completionState }}</div>
-        <ScriptForm class="script_form" :script_props="scriptText" @input-submitted="handleSubmit"/>
+        <ScriptForm class="script_form" :script_props="scriptText" @script-submitted="handleSubmit"/>
     </div>
 </template>
 

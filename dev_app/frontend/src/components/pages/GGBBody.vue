@@ -1,39 +1,55 @@
 <script setup type="text/javascript">
     /* eslint-disable */
-    import { ref, defineProps, watch } from 'vue';
+    import { ref, defineProps, watch, onMounted } from 'vue';
+    import { useRoute } from 'vue-router';
+    import {useStore} from 'vuex';
 
-    // プロパティを定義することで，親コンポーネントのv-bind(:)script_modified_propsを取得
-    const props = defineProps({script_modified_props: String});
+    // プロパティを定義することで，親コンポーネントのv-bind(:)ggb_script_propsを取得
+    const props = defineProps({ggb_script_props: String});
+    
 
-    // 親コンポーネントからのscript_modified_propsの変更を監視し，変更があれば関数を実行する．
+    // 親コンポーネントからのggb_script_propsの変更を監視し，変更があれば関数を実行する．
     watch(
-        () => props.script_modified_props,
-        (newValue) => {
+        () => props.ggb_script_props, // 監視する変数
+        (newValue) => { // 変更があった場合に実行する関数
             executeMultipleCommands(newValue)
         }
     );
-
+    
+    // 保存用のストア
+    const store = useStore();
     // GeoGebraインスタンスの作成
-    var params = {
+    const params = ref({
         "appName": "3d", 
         "scaleContainerClass": "geogebra_01",
-        // "width": 100, 
-        // "height": 100, 
         "showToolBar": true, 
         "showAlgebraInput": false, 
         "showMenuBar": true,
         "disableAutoScale":true,
-    };
-    var applet = new GGBApplet(params, true);
-    window.addEventListener('DOMContentLoaded', function() {
-        applet.inject('ggb-element');
-    })
+    });
+    
+    let applet = null
+    const route = useRoute();
+
+    const reloadGeoGebra = () => {
+        if (applet) { // 既にGeoGebraが読み込まれている場合は，消去する
+            // applet.remove(); 
+        }
+            applet = new GGBApplet(params.value, true);
+            applet.inject('ggb-element');
+        }
+    
+    // var applet = new GGBApplet(params, true);
+    // window.addEventListener('DOMContentLoaded', function() {
+    //     applet.inject('ggb-element');
+    // })
     // 消去用のオブジェクトのラベル．カンマでオブジェクト名が区切られているstr型
     let label = ""
     // GeoGebra図形生成関数
     function executeMultipleCommands(ggb_script_last) {
         label = ggbApplet.evalCommandGetLabels(ggb_script_last);
-        console.log(`in FormsBody.vue in executeMultipleCommands() ggb_script_last: ` + ggb_script_last);
+        // ggbApplet.evalCommand(ggb_script_last);
+        console.log(`in GGBBody.vue in executeMultipleCommands() ggb_script_last: ` + ggb_script_last);
         console.log(`label:` + label);
     }
     // GeoGebra画面から全てのオブジェクトを消去する
@@ -44,6 +60,19 @@
             ggbApplet.deleteObject(element)
         });
     }
+
+    // マウント時に実行する関数
+    onMounted(() => { // コンポーネントがマウントされたらGeoGebraを読み込む
+    reloadGeoGebra()
+    // if (store.state.geoGebraState){
+    //     applet.setXML(store.state.geoGebraState)
+    // }
+    })
+
+    // ルートの変化を監視し，変化があればGeoGebraを再読み込みする
+    watch(() => route.fullPath, () => {
+    reloadGeoGebra()
+    })
 </script>
 
 <template>

@@ -1,9 +1,37 @@
 <template>
-    <header class="app_header-1">
+    <header class="app_header-1" style="display: flex;">
         <h2 class="heading-026">Texto<span class="heading-026-1">3D</span></h2>
+        
+
     </header>
+    
+    <div class="flex-container">
+    <button class= "btn" v-on:click="goToHomePage">
+        <span class="text">通常モード</span>
+    </button>
+    <button class="btn" v-on:click="goToAnotherPage" >
+        <span class="text">stepモード</span>
+    </button>
+    </div>
 
 </template>
+
+<script setup type="ts">
+
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+
+const goToAnotherPage = () => {
+    router.push('/routing')
+}
+
+const goToHomePage = () => {
+    router.push('/')
+}
+</script>
+
 
 <style scoped>
 .app_header-1 {
@@ -29,5 +57,41 @@
 .heading-026-1 {
     color: #eeeeee;
     font-size: 1.8em;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 50%;
+}
+.btn {
+    border: none;
+    width: 10em;
+    height: 3em;
+    border-radius: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background: #2589d0;
+    cursor: pointer;
+    transition: all 450ms ease-in-out;
+    margin-right: 10px;
+    
+}
+.btn:hover {
+  background-color: #1c5d8c;
+}
+
+.sparkle {
+    fill: #eeeeee;
+    transition: all 800ms ease;
+}
+
+.text {
+    font-weight: 600;
+    color: #eeeeee;
+    font-size: medium;
 }
 </style>

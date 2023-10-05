@@ -1,28 +1,30 @@
 <script setup>
 	/* eslint-disable */
 	import { ref } from 'vue';
-	import GGBBody from './components/pages/GGBBody.vue';
-	import FormsBody from './components/pages/FormsBody.vue';
+	import GGBBody from '../pages/GGBBody.vue';
+  import FormsBody from '../pages/FormsBody.vue';
 
-	import MyHeader from './components/modules/MyHeader.vue';
-	import MyFooter from './components/modules/MyFooter.vue';
+	import MyHeader from './MyHeader.vue';
+	import MyFooter from './MyFooter.vue';
 
 	// 子コンポーネントへ送信用の変数
 	const scriptModifiedText = ref('');
 	// 親コンポーネントに動作を伝達させる関数，'input-submitted'は親コンポーネントでのイベントトリガー名
 	function testFunct(data) {
 		scriptModifiedText.value = data
-		console.log(`in App.vue in testFunct(data) scriptModifiedText.value: ` + scriptModifiedText.value);
+		console.log(`in MyInstruction.vue in testFunct(data) scriptModifiedText.value: ` + scriptModifiedText.value);
 	}
+
 
 </script>
 
 <template>
-	<div id="app">
-		<MyHeader/>
-    <router-view></router-view>
-		<MyFooter/>
-  	</div>
+	<div class="ground-001">
+		<div class="container-001">
+			<FormsBody class="formsbody" @ggbscript-to-model="testFunct"/>
+			<GGBBody class="ggbbody" :ggb_script_props="scriptModifiedText"/>
+		</div>
+	</div>
 </template>
 
 <style scoped>
