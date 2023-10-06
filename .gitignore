@@ -5,3 +5,4 @@ dist/
 dist/index.html
 dev_app/package-lock.json
 dev_app/package.json
+vuetify-project/

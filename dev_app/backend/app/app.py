@@ -4,8 +4,13 @@ import sys, os
 from pathlib import Path
 from PIL import Image
 import pyocr
-
+import pyocr.builders
+from google.cloud import vision
+from google.oauth2 import service_account
+from dotenv import load_dotenv
 from controllers.MakeScript import ChatCompletion
+
+
 
 # %%
 # Flaskのpathの設定
@@ -35,14 +40,49 @@ def hello():
 @app.route('/run_ocr', methods = ["GET", "POST"])
 def RunOCR():
     if request.method == "POST":
-        # OCRエンジンを取得
-        engines = pyocr.get_available_tools()
-        engine = engines[0]
-        # 対応言語取得
-        langs = engine.get_available_languages()
-        # 画像の文字を読み込む
-        image = Image.open(request.files["image"])
-        text = engine.image_to_string(image, lang="jpn")
+        # 身元証明書のjsonファイルを読み込む
+        load_dotenv()
+        google_credentials = os.getenv('GOOGLE_CREDENTIALS')
+        credentials = service_account.Credentials.from_service_account_info(json.loads(google_credentials))
+        
+        # 画像解析メソッドを提供するクライアントを作成
+        client = vision.ImageAnnotatorClient(credentials=credentials)
+        
+        # jpg, jpegはなぜか画像が回転してしまうので，回転情報を取得して元の向きに戻し，pngに変換してOCRを行う
+        if request.files["image"].filename.endswith(".jpeg") or request.files["image"].filename.endswith(".jpg"):
+            image = Image.open(request.files["image"])
+             # EXIFデータから回転情報を取得
+            exif_data = image.getexif()
+            orientation_tag = 274  # 'Orientation'タグのID
+
+            if exif_data and orientation_tag in exif_data:
+                orientation = exif_data[orientation_tag]
+
+                rotate_values = {
+                    3: 180,
+                    6: 270,
+                    8: 90
+                }
+
+                # 画像を適切に回転
+                if orientation in rotate_values:
+                    image = image.rotate(rotate_values[orientation], expand=True)
+            image.show()
+            image.save("input.png") # 一時的にpngに変換して保存
+
+            with open("input.png", "rb") as image_file:
+                content = image_file.read()
+
+            image = vision.Image(content=content)
+            text = client.document_text_detection(image=image).full_text_annotation.text # OCRを実行
+            os.remove("input.png") # 一時的に保存したpngを削除
+
+        else: # jpeg, jpg以外の場合
+            file = request.files["image"]
+            content = file.read()
+            image = vision.Image(content=content)
+            text = client.document_text_detection(image=image).full_text_annotation.text
+
         return jsonify({"text": text})
     else:
         return("method == GET")
@@ -150,4 +190,5 @@ def Push2GPT():
 
 # %%
 if __name__ == "__main__":
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)

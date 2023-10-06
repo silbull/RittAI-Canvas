@@ -1,10 +1,7 @@
 <template>
     <header class="app_header-1" style="display: flex;">
         <h2 class="heading-026">Texto<span class="heading-026-1">3D</span></h2>
-        
-
     </header>
-    
     <div class="flex-container">
     <button class= "btn" v-on:click="goToHomePage">
         <span class="text">通常モード</span>

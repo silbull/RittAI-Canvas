@@ -43,10 +43,9 @@
 
 <template>
     
-<div>
-    <v-add><v-file-input label="File input"></v-file-input></v-add>
+<div >
     <input type="file" id="imageUpload" />
-    <button @click="handleOCR()">Run OCR</button>
+    <button class="button-ocr" @click="handleOCR()">Run OCR</button>
 </div>
     <textarea class="textarea-01" placeholder="空間図形の問題を入力してください" v-model="question_text" @keydown.ctrl.enter="QuestionSubmit()"></textarea>
     <button class="button-send_to_GPT" @click="QuestionSubmit()">Create GGB Script</button>
@@ -70,7 +69,24 @@
 .textarea-01::placeholder {
     color: #999;
 }
-
+.button-ocr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    margin:0 auto;
+    padding: .9em 2em;
+    border: none;
+    border-radius: 5px;
+    background-color: #2589d0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+    margin-bottom: 5px;    /* 下側の余白 */
+}
+.button-ocr:hover {
+    background-color: #0f5688;
+}
 .button-send_to_GPT {
     display: flex;
     justify-content: center;
@@ -89,4 +105,5 @@
 .button-send_to_GPT:hover {
     background-color: #0f5688;
 }
+
 </style>
