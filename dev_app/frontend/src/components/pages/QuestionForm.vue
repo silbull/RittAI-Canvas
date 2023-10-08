@@ -2,6 +2,7 @@
     import { defineEmits, ref } from 'vue'
     import VueCropper from 'vue-cropperjs';
     import 'cropperjs/dist/cropper.css';
+    import heic2any from 'heic2any';
 
     const cropperRef = ref('');
     const imageSrc = ref('');
@@ -10,12 +11,23 @@
     let width = 0;
     let height = 0;
 
-    const onFileChange = (e) => {
+    const onFileChange = async (e) => {
         width = 0;
         height = 0;
         imageSrc.value = null;
         showCropper.value = false;
-        const file = e.target.files[0];
+        let file = e.target.files[0];
+        console.log("file: " + file + " file.type: " + file.type)
+        // file typeがheicの場合はheic2anyで変換
+        if (file.type === "image/heic" || file.type === "image/heif") {
+        const convertedBlob = await heic2any({
+            blob: file,
+            toType: "image/jpeg",
+        });
+        file = new File([convertedBlob], "converted.jpg", { type: "image/jpeg" });
+        console.log("file: " + file + " file.type: " + file.type)
+    }
+
         const reader = new FileReader();
         reader.onload = (e) => {
             console.log(e.target.result)
@@ -27,8 +39,8 @@
                 // 画像をリサイズ，最大1000x1000
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                const maxWidth = 1000;
-                const maxHeight = 1000;
+                const maxWidth = 800;
+                const maxHeight = 600;
                 width = img.naturalWidth;
                 height = img.naturalHeight;
                 if (width > height) {
@@ -116,6 +128,8 @@
         :autoCropArea="0.99"
         :toggleDragModeOnDblclick="false"
         :dragMode="crop"
+        :minCropBoxWidth="20"
+        :minCropBoxHeight="20"
       ></vue-cropper>
       <button class="button-ocr" @click="handleOCR">画像から読み取る</button>
       <button class="close-popup" @click="showCropper = false">戻る</button>
