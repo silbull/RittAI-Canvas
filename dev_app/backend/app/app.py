@@ -67,7 +67,6 @@ def RunOCR():
                 # 画像を適切に回転
                 if orientation in rotate_values:
                     image = image.rotate(rotate_values[orientation], expand=True)
-            image.show()
             image.save("input.png") # 一時的にpngに変換して保存
 
             with open("input.png", "rb") as image_file:
@@ -82,6 +81,9 @@ def RunOCR():
             content = file.read()
             image = vision.Image(content=content)
             text = client.document_text_detection(image=image).full_text_annotation.text
+        
+        # 改行文字，空白文字を削除
+        text = text.replace("\n", "").replace(" ", "")
 
         return jsonify({"text": text})
     else:
