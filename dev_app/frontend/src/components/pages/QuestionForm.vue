@@ -7,32 +7,58 @@
     const imageSrc = ref('');
     const showCropper = ref(false);
 
-    let autoCropWidth = 700;
-    let autoCropHeight = 400;
+    let width = 0;
+    let height = 0;
 
     const onFileChange = (e) => {
-        imageSrc.value = '';
+        width = 0;
+        height = 0;
+        imageSrc.value = null;
         showCropper.value = false;
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = (e) => {
-        
-            imageSrc.value = e.target.result;
-            showCropper.value = true;
-            // const img = new Image();
-            // img.src = e.target.result;
-            // showCropper.value = true;
-            // img.onload = () => {
-            //     autoCropWidth = img.width;
-            //     autoCropHeight = img.height;
-            // };
+            console.log(e.target.result)
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = () => {
+                console.log("画像data" + img.src)
+                
+                // 画像をリサイズ，最大1000x1000
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const maxWidth = 1000;
+                const maxHeight = 1000;
+                width = img.naturalWidth;
+                height = img.naturalHeight;
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height *= maxWidth / width;
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width *= maxHeight / height;
+                        height = maxHeight;
+                    }
+                }
+                console.log("width: " + width + " height: " + height)
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+                const resizeImageSrc = canvas.toDataURL(); // リサイズ後の画像データ
+                imageSrc.value = resizeImageSrc; // cropperのsrcに代入
+                showCropper.value = true;
+            };
+            
 
         };
         reader.readAsDataURL(file);
 
     };
 
-    const cropImage = async () => {
+    const handleOCR = async () => {
+        console.log("in cropImage() width: " + width + " height: " + height)
         const cropperImage = cropperRef.value;
         const croppedCanvas = cropperImage.getCroppedCanvas();
 
@@ -71,32 +97,6 @@
         emit('input-submitted', question_text.value);
     }
 
-    
-    
-
-    const handleOCR = () => {
-        const image = document.getElementById("imageUpload").files[0];
-        const formData = new FormData()
-        formData.append('image', image)
-
-        fetch(
-            // flask APIのパスを指定
-            "/run_ocr", 
-            {
-                method: 'POST',
-                body: formData, //dataをjsonに変換して送信
-            } // postのボディ
-        ).then(res => res.json()).then( 
-            // 同期処理．レスポンス取得後に実行．
-            function(jdata){
-                var output = jdata["text"];
-                console.log(`in handleOCR() output: ` + output);
-
-                question_text.value = output; // scriptTextに出力を代入
-                console.log(`in handleOCR() question_text.value: ` + question_text.value);
-            }
-        ).catch(error => console.error('Error:', error)); // エラー処理
-    }
 </script>
 
 
@@ -105,15 +105,20 @@
     
 <div >
     <input type="file" @change="onFileChange" />
-    <div v-if="showCropper">
+    <div v-if="showCropper" class = "cropper-popup">
       <vue-cropper
         ref="cropperRef"
         :src="imageSrc"
-        :stencil-props="{
-          aspectRatio: 1 / 1,
-        }"
+        :movable="false"
+        :zoomable="false"
+        :zoomOnTouch="false"
+        :autoCrop="true"
+        :autoCropArea="0.99"
+        :toggleDragModeOnDblclick="false"
+        :dragMode="crop"
       ></vue-cropper>
-      <button class="button-ocr" @click="cropImage">画像から読み取る</button>
+      <button class="button-ocr" @click="handleOCR">画像から読み取る</button>
+      <button class="close-popup" @click="showCropper = false">戻る</button>
     </div>
     <!-- <input type="file" id="imageUpload" />
     <button class="button-ocr" @click="handleOCR()">画像から読み取る</button> -->
@@ -159,6 +164,26 @@
 .button-ocr:hover {
     background-color: #0f5688;
 }
+
+.close-popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    margin:0 auto;
+    padding: .9em 2em;
+    border: 1px solid #2589d0;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #2589d0;
+    font-size: 1em;
+    margin-top: 5px;
+    margin-bottom: 5px;    /* 下側の余白 */
+}
+.close-popup:hover {
+    background-color: #dee0e1;
+}
+
 .button-send_to_GPT {
     display: flex;
     justify-content: center;
@@ -177,5 +202,25 @@
 .button-send_to_GPT:hover {
     background-color: #0f5688;
 }
+
+.cropper-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(39, 38, 38, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* .cropper-popup img {
+  width: 50%;
+  height: 50%;
+  object-fit: contain;
+} */
 
 </style>
