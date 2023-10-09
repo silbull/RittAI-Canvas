@@ -10,8 +10,12 @@ sys.path.append(os.path.join(os.path.dirname("__file__"), '..'))
 import openai
 
 # %%
-from classes.Completion import Completion
+# オブジェクト抽出機を part_objects_extracter.py からインポート
+from part_objects_extracter import part_object_extracter
+# パラメータ抽出機のインスタンスを作成する関数群を parameter_extracter.py からインポート
 import parameter_extracter
+# スクリプト生成機を parameter_extracter.py からインポート
+import GGBscript_maker
 
 # %%
 # APIキーをファイルから読み込み，APIキー認証
@@ -19,80 +23,66 @@ load_dotenv()
 openai.api_key = os.environ['OPENAI_API_KEY']
 
 # %%
-object_extracter = Completion(
-    model="gpt-3.5-turbo",
-    system_prompt="""I enter a math problem statement in Japanese. Please, extract the part object names and the type of object.""",
-    funct={
-        # 関数名と全体の説明
-        "name": "part_objects_extract",
-        "description": "This process extracts the part object names and the type of objects as an array",
-        # 関数の詳細(引数)
-        "parameters": {
-            "type": "object",
-            "properties": {
-                # 第1引数
-                "part_objects": {
-                    # パーツオブジェクトのリスト(第1引数)
-                    "type": "array",
-                    "description": "An array of part object types and names",
-                    "items": {
-                        # リストの中身を辞書で定義
-                        "type": "object",
-                        "properties": {
-                            "object_type": {
-                                "type": "string",
-                                "enum": ["Cube", "rectangular", "Segment", "Intersect", "Midpoint", "PerpendicularLine", "tetrahedron"],
-                                "description": """Part objects include the following. Please select one type from the list in English such as "Cube", "Midpoint".
-                                part_object_type = [
-                                    ("立方体" → "Cube"),
-                                    ("直方体" → "rectangular"),
-                                    ("線分" → "Segment"),
-                                    ("交点" → "Intersect"),
-                                    ("中点" → "Midpoint"),
-                                    ("垂線" → "PerpendicularLine"),
-                                    ("四面体" → "tetrahedron"),
-                                ]
-                                Please, do NOT use symbols before their definitions. Use the order in which the definitions are given.
-                                Bad example: ABCD-EFGF→BI→I
-                                Good example: ABCD-EFGF→I→B"""
-                            },
-                            "object_name": {
-                                "type": "string",
-                                "description": "A name that identifies a shape. Restrict names to symbols only, such as ABCD-EFGH. If an obvious name does not exist in the problem statement, give an appropriate name, such as 'Perpendicular_A-BC'."
-                            },
-                        }
-                    }
-                }
-            }
-        }
-    },
-    examples=[
-        (
-            "1辺4の立方体ABCD-EFGH",
-            "[{'object_name': 'ABCD-EFGH', 'object_type': 'Cube'}]"
-        ),
-        (
-            "頂点Pから三角形ABCに垂線PHをおろす",
-            "[{'object_name': 'PH', 'object_type': 'PerpendicularLine'}, {'object_name': 'H', 'object_type': 'Intersect'}]"
-        ),
-        (
-            "AB = √3，AC=AD=BC=DB=4の四面体ABCDがある．また，辺CDの中点をMとする．頂点Aから三角形BCDに垂線AHを下ろしたとき，AHの長さを求めよ．",
-            '[{"object_name": "ABCD", "object_type": "tetrahedron"},{"object_name": "M", "object_type": "Midpoint"},{"object_name": "AH", "object_type": "PerpendicularLine"},{"object_name": "H", "object_type": "Intersect"}'
-        ),
-        (
-            "立体 PQRST-UVWX は、PQ = 35 cm、PR = 25 cm、PU = 45 cm の直方体である。頂点 R と頂点 U を結び、頂点 Q から線分 RU に引いた垂線と線分 RU との交点を I とする。線分 QI の長さは何 cm か。",
-            '[{"object_name": "PQRST-UVWX", "object_type": "rectangular"},{"object_name": "RU", "object_type": "Segment"},{"object_name": "QI", "object_type": "PerpendicularLine"},{"object_name": "I", "object_type": "Intersect"}]'
-        )
-    ]
-)
+# パラメータ抽出機 文字列→関数 の変換用
+instance_creator_functs = {
+    "rectangular": parameter_extracter.rectangular,
+    "Cube": parameter_extracter.Cube,
+    "Segment": parameter_extracter.Segment,
+    "Intersect": parameter_extracter.Intersect,
+    "Midpoint": parameter_extracter.Midpoint,
+    "PerpendicularLine": parameter_extracter.PerpendicularLine,
+    # "tetrahedron": parameter_extracter.tetrahedron,
+}
+
+# スクリプト生成機 文字列→関数 の変換用
+script_maker_functs = {
+    "rectangular": GGBscript_maker.rectangular,
+    "Cube": GGBscript_maker.Cube,
+    "Segment": GGBscript_maker.Segment,
+    "Intersect": GGBscript_maker.Intersect,
+    "Midpoint": GGBscript_maker.Midpoint,
+    "PerpendicularLine": GGBscript_maker.PerpendicularLine,
+    # "tetrahedron": GGBscript_maker.tetrahedron,
+}
 
 # %%
 def main():
-    # print("Q1")
-    # pprint(object_extracter.create("立体ABCD-EFGHは，AB=40cm，AD=30cm，AE=50cmの直方体である．頂点Dと頂点Fを結び，頂点Bから線分DFに引いた垂線と線分DFとの交点をIとする．線分BIの長さは何cmか．"))
+    print("Q1")
+    # 問題文の入力
+    question_sentence = "立体ABCD-EFGHは，AB=40cm，AD=30cm，AE=50cmの直方体である．頂点Dと頂点Fを結び，頂点Bから線分DFに引いた垂線と線分DFとの交点をIとする．線分BIの長さは何cmか．"
+    
+    # オブジェクト抽出機を実行して，オブジェクトのリストを抽出
+    part_objects = part_object_extracter.create(question_sentence)
+
+    output = ""
+    # パラメータ抽出機とスクリプト生成機を実行
+    for part_object in part_objects:
+        # パラメータを抽出する
+        # パラメータ抽出機インスタンスを作成する関数を選定
+        instance_create_func = instance_creator_functs[part_object["object_type"]]
+        # インスタンス作成関数を実行
+        parameter_extracter = instance_create_func(part_object["object_name"])
+        # パラメータ抽出を実行し辞書に保存
+        parameter = (parameter_extracter.create(question_sentence))
+        part_object["parameters"] = parameter
+
+        # GGBScriptを生成する
+        # スクリプト生成機を作成する関数を選定
+        script_maker_func = script_maker_functs[part_object["object_type"]]
+        # スクリプト生成関数を実行し辞書に保存
+        GGBscript = script_maker_func(part_object)
+        part_object["GGBscript"] = GGBscript
+        # 最終的なアウトプットを作る
+        output += GGBscript
+
+    print("パラメータとスクリプトのjson")
+    pprint(part_objects)
+    print("スクリプト生成機の最終結果")
+    print(output)
+    
     # print("Q2")
-    # pprint(object_extracter.create("直方体ABCD-EFGHにおいて，辺AB，AD，AEの長さをそれぞれa，b，cとする．また，頂点Aから直線FHにおろした垂線をALとする．"))
-    return
+    # pprint(part_object_extracter.create("直方体ABCD-EFGHにおいて，辺AB，AD，AEの長さをそれぞれa，b，cとする．また，頂点Aから直線FHにおろした垂線をALとする．"))
+    # return
 
 if __name__ == '__main__':
     main()

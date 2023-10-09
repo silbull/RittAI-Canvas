@@ -19,7 +19,7 @@ class Completion:
     def __init__(self,
         model = "gpt-3.5-turbo",
         system_prompt: str | None = None,
-        funct: dict | None = None,
+        funct: dict | list | None = None,
         examples: list[tuple[str|str]] | None = None,
     ):
         self.model = model
@@ -38,12 +38,15 @@ class Completion:
                 messages.append({"role": "user", "content": example[0]})
                 messages.append({"role": "assistant","content": None,"function_call": {"name": self.funct["name"], "arguments": example[1]}})
         # function callingの設定 
-        if self.funct is not None:
+        if type(self.funct) == dict:
             functions = [self.funct]
             function_call = {"name": self.funct["name"]}
+        elif type(self.funct) == list:
+            functions = self.funct
+            function_call = "auto"
         # completion関数を実行
         messages.append({"role": "user", "content": input})
-        print(f"START ChatCompletion ...", end="")
+        print(f"START ChatCompletion ... ", end="")
         response = openai.ChatCompletion.create(
             model=self.model,
             messages=messages,
@@ -55,8 +58,8 @@ class Completion:
 
         if p_flg: pprint(response)
 
-        self.arguments = json.loads(response["choices"][0]["message"]["function_call"]["arguments"])
-        return self.arguments
+        arguments = json.loads(response["choices"][0]["message"]["function_call"]["arguments"])
+        return arguments
     
     def print_datas(self):
         print(f"model: {self.model}")
