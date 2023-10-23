@@ -3,12 +3,12 @@
         <h2 class="heading-026">Texto<span class="heading-026-1">3D</span></h2>
     </header>
     <div class="flex-container">
-    <button class= "btn" v-on:click="goToHomePage">
+    <!-- <button class= "btn" v-on:click="goToHomePage">
         <span class="text">通常モード</span>
-    </button>
-    <button class="btn" v-on:click="goToAnotherPage" >
+    </button> -->
+    <!-- <button class="btn" v-on:click="goToAnotherPage" >
         <span class="text">stepモード</span>
-    </button>
+    </button> -->
     </div>
 
 </template>
