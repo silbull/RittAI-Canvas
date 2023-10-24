@@ -3,8 +3,6 @@ import json, pprint
 import sys, os
 from pathlib import Path
 from PIL import Image
-import pyocr
-import pyocr.builders
 from google.cloud import vision
 from google.oauth2 import service_account
 from dotenv import load_dotenv
