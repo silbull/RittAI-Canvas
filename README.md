@@ -22,7 +22,7 @@ source .venv/bin/activate
 ターミナルで以下の操作を行ってください．
 1. dev_appディレクトリに移動
 ```zsh:
-cd dev app
+cd dev_app
 ```
 2. ポートの立ち上げ
 ```zsh:
