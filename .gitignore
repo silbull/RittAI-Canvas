@@ -1,7 +1,6 @@
 *.env
 __pycache__/
 gpt_log/
-dist/
 dev_app/package-lock.json
 dev_app/package.json
 vuetify-project/
