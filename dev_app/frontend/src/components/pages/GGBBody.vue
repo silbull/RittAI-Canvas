@@ -6,7 +6,6 @@
 
     // プロパティを定義することで，親コンポーネントのv-bind(:)ggb_script_propsを取得
     const props = defineProps({ggb_script_props: String});
-    
 
     // 親コンポーネントからのggb_script_propsの変更を監視し，変更があれば関数を実行する．
     watch(
@@ -71,20 +70,59 @@
 
     // ルートの変化を監視し，変化があればGeoGebraを再読み込みする
     watch(() => route.fullPath, () => {
-    reloadGeoGebra()
+        reloadGeoGebra()
     })
+
+    
+    // 軸の表示・非表示を切り替える関数
+    const isCheckedAxis = ref(true);
+    const axisVisibleChange = () => {
+        if (isCheckedAxis.value){
+            ggbApplet.setVisible("xAxis", true);
+            ggbApplet.setVisible("yAxis", true);
+            ggbApplet.setVisible("zAxis", true);
+        }else{
+            ggbApplet.setVisible("xAxis", false);
+            ggbApplet.setVisible("yAxis", false);
+            ggbApplet.setVisible("zAxis", false);
+        }
+    }
+    // 平面の表示・非表示を切り替える関数
+    const isCheckedPlane = ref(true);
+    const planeVisibleChange = () => {
+        if (isCheckedPlane.value){
+            ggbApplet.setVisible("xOyPlane", true);
+        }else{
+            ggbApplet.setVisible("xOyPlane", false);
+        }
+    }
 </script>
 
 <template>
     <!-- デバッグ -->
     <!-- <div>script_modified_props: {{ script_modified_props }}</div>  -->
+    
     <div class="container-003">
-        <button class="button-reset" @click="deleteAllObjects()">Reset</button>
+            <div class="geogebra-menu">
+                <button class="button-reset" @click="deleteAllObjects()">Reset</button>
+                <fieldset class="checkbox-001">
+                    <label>
+                        <input type="checkbox" name="checkbox-001" v-model="isCheckedAxis" @change="axisVisibleChange"/>
+                        軸の表示
+                    </label>
+                    <label>
+                        <input type="checkbox" name="checkbox-001" v-model="isCheckedPlane" @change="planeVisibleChange"/>
+                        平面の表示
+                    </label>
+                </fieldset>
+            </div>
+        
         <div class="geogebra_01" id="ggb-element">ggb-elementが表示できません.</div>
     </div>
 </template>
 
 <style scoped>
+
     .geogebra_01 {
         width: 78vw;
         height: 76vh;
@@ -104,13 +142,70 @@
     color: #fff;
     font-weight: 600;
     font-size: 1em;
+    margin-right: 300px;
 }
 .button-reset:hover {
     background-color: #5d8ba1;
 }
 
-    .container-003{
-        display: flex;
-        flex-direction: column;
-    }
+.container-003{
+    display: flex;
+    flex-direction: column;
+}
+
+.geogebra-menu{
+    display: flex;
+    align-items: center;
+    
+}
+
+.checkbox-001 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5em 2em;
+    border: none;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.checkbox-001 label {
+    display: flex;
+    align-items: center;
+    gap: 0 .5em;
+    position: relative;
+    cursor: pointer;
+}
+
+.checkbox-001 label::before,
+.checkbox-001 label:has(:checked)::after {
+    content: '';
+}
+
+.checkbox-001 label::before {
+    width: 17px;
+    height: 17px;
+    border-radius: 3px;
+    background-color: #e6edf3;
+}
+
+.checkbox-001 label:has(:checked)::before {
+    background-color: #2589d0;
+}
+
+.checkbox-001 label:has(:checked)::after {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    transform: rotate(45deg);
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+}
+
+.checkbox-001 input {
+    display: none;
+}
+
+
 </style>
