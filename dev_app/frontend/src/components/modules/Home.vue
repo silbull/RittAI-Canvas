@@ -9,7 +9,7 @@
 
 	// 子コンポーネントへ送信用の変数
 	const ggbScript = ref('');
-	// 親コンポーネントに動作を伝達させる関数，'input-submitted'は親コンポーネントでのイベントトリガー名
+	// 子へデータを送るためのpropsに値を代入する関数
 	function testFunct(data) {
 		ggbScript.value = data
 		console.log(`in Home.vue in testFunct(data) ggbScript.value: ` + ggbScript.value);

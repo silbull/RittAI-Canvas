@@ -1,15 +1,14 @@
 <script setup>
 	/* eslint-disable */
 	import { ref } from 'vue';
-	import GGBBody from '../pages/GGBBody.vue';
-  import FormsBody from '../pages/FormsBody.vue';
+	import GGBBodys from '../pages/GGBBodys.vue';
+    import FormsBody from '../pages/FormsBody.vue';
 
-	import MyHeader from './MyHeader.vue';
-	import MyFooter from './MyFooter.vue';
+	
 
 	// 子コンポーネントへ送信用の変数
 	const scriptModifiedText = ref('');
-	// 親コンポーネントに動作を伝達させる関数，'input-submitted'は親コンポーネントでのイベントトリガー名
+	// 子へデータを送るためのpropsに値を代入する関数
 	function testFunct(data) {
 		scriptModifiedText.value = data
 		console.log(`in MyInstruction.vue in testFunct(data) scriptModifiedText.value: ` + scriptModifiedText.value);
@@ -22,7 +21,7 @@
 	<div class="ground-001">
 		<div class="container-001">
 			<FormsBody class="formsbody" @ggbscript-to-model="testFunct"/>
-			<GGBBody class="ggbbody" :ggb_script_props="scriptModifiedText"/>
+			<GGBBodys class="ggbbodys" :ggb_script_props="scriptModifiedText"/>
 		</div>
 	</div>
 </template>

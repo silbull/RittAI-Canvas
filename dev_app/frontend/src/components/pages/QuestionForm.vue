@@ -4,19 +4,22 @@
     import 'cropperjs/dist/cropper.css';
     import heic2any from 'heic2any';
 
-    const cropperRef = ref('');
-    const imageSrc = ref('');
-    const showCropper = ref(false);
+     
+    const cropperRef = ref(''); // cropperコンポーネントの参照を格納する変数, cropperRef.valueで参照できる
+    const imageSrc = ref(''); // cropperのsrcに代入する変数
+    const showCropper = ref(false); // cropperを表示するかどうかのフラグ
+    const isLoading = ref(false);
 
     let width = 0;
     let height = 0;
 
     const onFileChange = async (e) => {
+        isLoading.value = true;
         width = 0;
         height = 0;
         imageSrc.value = null;
         showCropper.value = false;
-        let file = e.target.files[0];
+        let file = e.target.files[0];   // 1つ目のファイルを取得
         console.log("file: " + file + " file.type: " + file.type)
         // file typeがheicの場合はheic2anyで変換
         if (file.type === "image/heic" || file.type === "image/heif") {
@@ -26,7 +29,8 @@
         });
         file = new File([convertedBlob], "converted.jpg", { type: "image/jpeg" });
         console.log("file: " + file + " file.type: " + file.type)
-    }
+        }
+        isLoading.value = false;
 
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -114,9 +118,9 @@
 
 
 <template>
-    
-<div >
-    <input type="file" @change="onFileChange" />
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    </head>
     <div v-if="showCropper" class = "cropper-popup">
       <vue-cropper
         ref="cropperRef"
@@ -134,16 +138,95 @@
       <button class="button-ocr" @click="handleOCR">画像から読み取る</button>
       <button class="close-popup" @click="showCropper = false">戻る</button>
     </div>
-    <!-- <input type="file" id="imageUpload" />
-    <button class="button-ocr" @click="handleOCR()">画像から読み取る</button> -->
-</div>
+    <div class="input-item">
+        <label class="input-item-label">
+            <!-- isLoadingがtrueの場合に表示 -->
+            <span v-if="isLoading">Loading... </span>
+            <svg v-if="isLoading" class="loading-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 40 40" width="27" height="27" fill="#e6edf3">
+            <rect x="0" y="0" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="10" y="0" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.125s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="20" y="0" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.25s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="0" y="10" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.875s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="20" y="10" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.375s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="0" y="20" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.75s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="10" y="20" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.625s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="20" y="20" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.5s" calcMode="discrete"></animate>
+            </rect>
+            </svg>
+
+            <!-- isLoadingがfalseの場合に表示 -->
+            <span v-if="!isLoading">画像から問題文を読み取る </span>
+            <span v-if="!isLoading" class="material-symbols-outlined">add_a_photo</span>
+            <input  type="file" @change="onFileChange" />
+        </label>
+    </div>
     <textarea class="textarea-01" placeholder="空間図形の問題を入力してください" v-model="question_text" @keydown.ctrl.enter="QuestionSubmit()"></textarea>
-    <button class="button-send_to_GPT" @click="QuestionSubmit()">Create GGB Script</button>
+    <button class="button-send_to_GPT" @click="QuestionSubmit()">Create GGB Script</button>   
 </template>
 
 
 
 <style scoped>
+/* input要素を非表示に */
+label > input {
+    display:none;
+
+}
+
+.input-item-label {
+    display: block;
+    text-align: center;
+    width: 250px;
+    margin:0 auto;
+    padding: .9em .5em;
+    border: none;
+    border-radius: 5px;
+    background-color: #2589d0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+    margin-bottom: 5px;    /* 下側の余白 */
+}
+.input-item-label:hover {
+    background-color: #0f5688;
+}
+
+.loading-icon{
+    vertical-align: middle;
+}
+.material-symbols-outlined {
+    vertical-align: middle;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+  
+}
+
 .textarea-01 {
     height: 30%;
     padding: 8px 10px;
