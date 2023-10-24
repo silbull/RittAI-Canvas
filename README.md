@@ -1,6 +1,5 @@
-# Texto3D / dev_Ozaki
-尾崎が色々試行錯誤したものの残骸達です．<br>
-主にGINZAを用いた言語解析，opemai apiによるGPTとのプロンプトのテスト結果があります．
+# Texto3D / dev_miyawaki
+フロントの実装
 
 ## フォルダ構成
 
