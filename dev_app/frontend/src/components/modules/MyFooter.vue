@@ -2,7 +2,7 @@
     <footer class="footer-002">
     <a href="#">
         <!--お好きな画像を指定してください-->
-        <img class="footer-002__logo" src="./texto3d_logo_beta.svg" alt="Description">
+        <img class="footer-002__logo" src="dev_app/frontend/src/components/modules/texto3d_logo_beta.svg" alt="Description">
     </a>
     <nav>
         <ul class="footer-002__list">
