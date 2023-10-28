@@ -1,4 +1,4 @@
-# Texto3D / dev_miyawaki
+# Texto3D 
 フロントの実装
 
 ## 実行方法
