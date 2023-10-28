@@ -79,6 +79,8 @@
     background-color: #d2e6fc;
     color: #333333;
     margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 1em;
 }
 .balloon-002::before {
     position: absolute;
