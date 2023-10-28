@@ -9,15 +9,19 @@
     // GPT動作中の状態を保持
     const completionState = ref("問題文を入力してください")
 
+    const buttonText = ref("Create GGB Script")
+    const gptLoading = ref(false)
+
     // バックエンドにリクエストを投げる関数．第1引数はbodyに入れるデータ．pathは第2引数で指定する．
     const SendString2Backend = (data, path="") => {
         // 入力が空白だったら無視
         if(data == ""){
-            completionState.value = "問題文が入力されていません"
+            buttonText.value = "問題文が入力されていません"
             return
         }
         // 入力をバックエンドに送信
-        completionState.value = "生成中です..."
+        buttonText.value = "生成中..."
+        gptLoading.value = true
         console.log(`in SendString2Backend(${path}) data: ` + data);
         fetch(
             path, // flask APIのパスを指定
@@ -34,10 +38,14 @@
                 var output = jdata["output"];
                 console.log(`in SendString2Backend(${path}) output: ` + output);
 
-                completionState.value = "Completed"
+                buttonText.value = "Completed!"
+                gptLoading.value = false
 
                 scriptText.value = output; // scriptTextに出力を代入
                 console.log(`in SendString2Backend(${path}) scriptText.value: ` + scriptText.value);
+                setTimeout(() => {
+                    buttonText.value = "Create GGB Script"
+                }, 2000);
             }
         ).catch(error => console.error('Error:', error)); // エラー処理
     }
@@ -53,8 +61,12 @@
 
 <template>
     <div class="container-002">
-        <QuestionForm class="question_form-001" @input-submitted="data => SendString2Backend(data, '/push2gpt')"/>
-            <div class="balloon-002">{{ completionState }}</div>
+        <QuestionForm 
+        class="question_form-001" 
+        @input-submitted="data => SendString2Backend(data, '/push2gpt')" 
+        :buttonText="buttonText" 
+        :gptLoading="gptLoading"
+        />
         <ScriptForm class="script_form" :script_props="scriptText" @script-submitted="handleSubmit"/>
     </div>
 </template>
@@ -65,7 +77,7 @@
     flex-direction: column;
 }
 .question_form-001 {
-    margin-bottom: 5px;    /* 下側の余白 */
+    margin-bottom: 10px;    /* 下側の余白 */
 }
 
 .balloon-002 {
@@ -90,6 +102,10 @@
     background-color: #d2e6fc;
     clip-path: polygon(50% 0, 0 100%, 100% 100%);
     content: '';
+}
+
+.script_form {
+    margin-top: 10px;
 }
 </style>
   

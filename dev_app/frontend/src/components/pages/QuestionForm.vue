@@ -1,5 +1,5 @@
 <script setup >
-    import { defineEmits, ref, watch } from 'vue'
+    import { defineEmits, ref, watch, defineProps } from 'vue'
     import VueCropper from 'vue-cropperjs';
     import 'cropperjs/dist/cropper.css';
     import heic2any from 'heic2any';
@@ -111,6 +111,12 @@
         });
     };
 
+    const props = defineProps({
+        buttonText: String,
+        gptLoading: Boolean,
+
+    });
+
     // textareaの代入先
     const question_text = ref("");
 
@@ -198,7 +204,43 @@
         </label>
     </div>
     <textarea class="textarea-01" placeholder="空間図形の問題を入力してください" v-model="question_text" @keydown.ctrl.enter="QuestionSubmit()"></textarea>
-    <button class="button-send_to_GPT" @click="QuestionSubmit()">Create GGB Script</button>   
+    <button class="button-send_to_GPT" @click="QuestionSubmit()">
+        {{ buttonText  }}
+        <svg v-if="gptLoading" class="loading-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 40 40" width="27" height="27" fill="#e6edf3">
+            <rect x="0" y="0" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="10" y="0" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.125s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="20" y="0" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.25s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="0" y="10" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.875s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="20" y="10" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.375s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="0" y="20" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.75s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="10" y="20" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.625s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="20" y="20" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.5s" calcMode="discrete"></animate>
+            </rect>
+            </svg>
+    </button>   
 </template>
 
 
@@ -286,7 +328,7 @@ label > input {
     justify-content: center;
     align-items: center;
     width: 250px;
-    margin:0 auto;
+    margin:0 auto;   /* 上下 左右 */
     padding: .9em 2em;
     border: 1px solid #2589d0;
     border-radius: 5px;
@@ -302,6 +344,7 @@ label > input {
 }
 
 .button-send_to_GPT {
+    margin-bottom: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
