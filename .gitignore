@@ -1,1 +1,7 @@
-Ozaki 2/.env
+*.env
+__pycache__/
+gpt_log/
+dev_app/package-lock.json
+dev_app/package.json
+vuetify-project/
+
