@@ -1,5 +1,5 @@
 <script setup >
-    import { defineEmits, ref } from 'vue'
+    import { defineEmits, ref, watch, defineProps } from 'vue'
     import VueCropper from 'vue-cropperjs';
     import 'cropperjs/dist/cropper.css';
     import heic2any from 'heic2any';
@@ -8,17 +8,24 @@
     const cropperRef = ref(''); // cropperコンポーネントの参照を格納する変数, cropperRef.valueで参照できる
     const imageSrc = ref(''); // cropperのsrcに代入する変数
     const showCropper = ref(false); // cropperを表示するかどうかのフラグ
-    const isLoading = ref(false);
+    const isLoading = ref(false); // 画像読み込み中かどうかのフラグ
 
     let width = 0;
     let height = 0;
+
+    const inputReset = () => {
+        showCropper.value = false;
+        imageSrc.value = null;
+        document.querySelector('input[type="file"]').value = null;
+
+    };
 
     const onFileChange = async (e) => {
         isLoading.value = true;
         width = 0;
         height = 0;
-        imageSrc.value = null;
-        showCropper.value = false;
+        imageSrc.value = null; // ボタンが押されるたびにcropperのsrcを初期化
+        showCropper.value = false;  
         let file = e.target.files[0];   // 1つ目のファイルを取得
         console.log("file: " + file + " file.type: " + file.type)
         // file typeがheicの場合はheic2anyで変換
@@ -32,6 +39,7 @@
         }
         isLoading.value = false;
 
+
         const reader = new FileReader();
         reader.onload = (e) => {
             console.log(e.target.result)
@@ -43,8 +51,8 @@
                 // 画像をリサイズ，最大1000x1000
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                const maxWidth = 800;
-                const maxHeight = 600;
+                const maxWidth = 640;
+                const maxHeight = 360;
                 width = img.naturalWidth;
                 height = img.naturalHeight;
                 if (width > height) {
@@ -103,6 +111,12 @@
         });
     };
 
+    const props = defineProps({
+        buttonText: String,
+        gptLoading: Boolean,
+
+    });
+
     // textareaの代入先
     const question_text = ref("");
 
@@ -122,21 +136,27 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     </head>
     <div v-if="showCropper" class = "cropper-popup">
-      <vue-cropper
-        ref="cropperRef"
-        :src="imageSrc"
-        :movable="false"
-        :zoomable="false"
-        :zoomOnTouch="false"
-        :autoCrop="true"
-        :autoCropArea="0.99"
-        :toggleDragModeOnDblclick="false"
-        :dragMode="crop"
-        :minCropBoxWidth="20"
-        :minCropBoxHeight="20"
-      ></vue-cropper>
-      <button class="button-ocr" @click="handleOCR">画像から読み取る</button>
-      <button class="close-popup" @click="showCropper = false">戻る</button>
+        <div class="balloon-001">
+            必要に応じて画像をトリミング✂️してください。画像によっては問題文に必要のない部分(問題番号，右図のように」など)も読み取られる場合があります。その際は読み取り後に適宜問題文を修正してください。
+        </div>
+        <vue-cropper
+            ref="cropperRef"
+            :src="imageSrc"
+            :movable="false"
+            :zoomable="false"
+            :zoomOnTouch="false"
+            :autoCrop="true"
+            :autoCropArea="0.99"
+            :toggleDragModeOnDblclick="false"
+            :dragMode="crop"
+            :minCropBoxWidth="20"
+            :minCropBoxHeight="20"
+        ></vue-cropper>
+        <div class="button-container">
+            <button class="close-popup" @click="inputReset">戻る</button>
+            <button class="button-ocr" @click="handleOCR">画像から読み取る</button>
+        </div>
+
     </div>
     <div class="input-item">
         <label class="input-item-label">
@@ -184,7 +204,43 @@
         </label>
     </div>
     <textarea class="textarea-01" placeholder="空間図形の問題を入力してください" v-model="question_text" @keydown.ctrl.enter="QuestionSubmit()"></textarea>
-    <button class="button-send_to_GPT" @click="QuestionSubmit()">Create GGB Script</button>   
+    <button class="button-send_to_GPT" @click="QuestionSubmit()">
+        {{ buttonText  }}
+        <svg v-if="gptLoading" class="loading-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 40 40" width="27" height="27" fill="#e6edf3">
+            <rect x="0" y="0" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="10" y="0" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.125s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="20" y="0" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.25s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="0" y="10" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.875s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="20" y="10" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.375s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="0" y="20" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.75s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="10" y="20" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.625s" calcMode="discrete"></animate>
+            </rect>
+            <rect x="20" y="20" width="8" height="8" fill="#e6edf3">
+                <animate attributeName="fill" values="#92ddce;#e6edf3;#e6edf3" keyTimes="0;0.125;1" dur="1s"
+                        repeatCount="indefinite" begin="0.5s" calcMode="discrete"></animate>
+            </rect>
+            </svg>
+    </button>   
 </template>
 
 
@@ -239,6 +295,11 @@ label > input {
     resize:none;
 }
 
+.button-container {
+    display: flex;
+    gap: 10px; /* ボタン間のスペースを設定する場合 */
+}
+
 .textarea-01::placeholder {
     color: #999;
 }
@@ -267,12 +328,13 @@ label > input {
     justify-content: center;
     align-items: center;
     width: 250px;
-    margin:0 auto;
+    margin:0 auto;   /* 上下 左右 */
     padding: .9em 2em;
     border: 1px solid #2589d0;
     border-radius: 5px;
     background-color: #fff;
     color: #2589d0;
+    font-weight: 600;
     font-size: 1em;
     margin-top: 5px;
     margin-bottom: 5px;    /* 下側の余白 */
@@ -282,6 +344,7 @@ label > input {
 }
 
 .button-send_to_GPT {
+    margin-bottom: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -319,5 +382,27 @@ label > input {
   height: 50%;
   object-fit: contain;
 } */
+.balloon-001 {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    max-width: 600px;
+    margin-bottom: 15px;
+    padding: .8em .8em;   /* 上下 左右 */
+    border-radius: 5px;
+    background-color: #e0efff;
+    color: #333333;
+    font-weight: 600;
+    font-size: 1em;
+}
 
+.balloon-001::before {
+    position: absolute;
+    bottom: -15px;
+    width: 30px;
+    height: 15px;
+    background-color: #e0efff;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    content: '';
+}
 </style>

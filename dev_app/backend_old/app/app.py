@@ -7,6 +7,7 @@ from google.cloud import vision
 from google.oauth2 import service_account
 from dotenv import load_dotenv
 from controllers.MakeScript import ChatCompletion
+import time
 
 
 
@@ -168,7 +169,6 @@ def Push2GPT():
         )
 
         output = res["choices"][0]["message"]["content"]
-        # output = "Here is Python Push2GPT"
 
         result = {"output": output}
         json_object = json.dumps(result, indent = 4) 

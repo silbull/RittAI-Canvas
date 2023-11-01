@@ -2,9 +2,9 @@
     <footer class="footer-002">
     <a href="#">
         <!--お好きな画像を指定してください-->
-        <img class="footer-002__logo" src="./texto3d_logo_beta.svg" alt="Description">
+        <img class="footer-002__logo" src="static/image/RittAI_logo.svg" alt="Description">
     </a>
-    <nav>
+    <!-- <nav>
         <ul class="footer-002__list">
             <li>
                 <a href="#">
@@ -47,7 +47,7 @@
                 </a>
             </li>
         </ul>
-    </nav>
+    </nav> -->
     <p class="footer-002__copyright">@ 2023 team Texto3D All rights reserved.</p>
 </footer>
 </template>
@@ -63,8 +63,8 @@
 }
 
 .footer-002__logo {
-    width: 130px;
-    height: 30px;
+    width: 115px;
+    height: 70px;
 }
 
 .footer-002__list {

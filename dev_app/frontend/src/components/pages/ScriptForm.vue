@@ -42,6 +42,7 @@
         line-height: 1.5;
         margin-bottom: 4px;    /* 下側の余白 */
         resize:none;
+        margin-top: 5px;
     }
 
     .textarea-02::placeholder {
