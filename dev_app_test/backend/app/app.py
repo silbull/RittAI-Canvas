@@ -6,6 +6,7 @@ from pathlib import Path
 # %
 from controllers.MakeScript import ChatCompletion
 from controllers.text2GGBscript.main import text2GGBscript
+from controllers.MakeScript import text2GGB_direct
 
 # %%
 # Flaskのpathの設定
@@ -36,8 +37,13 @@ def hello():
 def Push2GPT():
     if request.method == "POST":
         input = request.get_json()["input"]
+        """
         # 問題文からGGBスクリプトを生成
         output = text2GGBscript(input)
+        """
+        # """
+        output = text2GGB_direct(input)
+        # """
         # フロント側にoutputを送信
         result = {"output": output}
         json_object = json.dumps(result, indent = 4)
