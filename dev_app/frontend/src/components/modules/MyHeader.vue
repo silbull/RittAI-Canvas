@@ -1,6 +1,6 @@
 <template>
     <header class="app_header-1" style="display: flex;">
-        <h2 class="heading-026">Texto<span class="heading-026-1">3D</span></h2>
+        <h2 class="heading-026">Ritt<span class="heading-026-1">AI</span> Vision</h2>
     </header>
     <div class="flex-container">
     <!-- <button class= "btn" v-on:click="goToHomePage">
@@ -45,7 +45,7 @@ const goToHomePage = () => {
     font-size: 2.5vh;
     font-weight: bold;
     position: absolute;          /* 位置指定 */
-    top: 25%;                    /* 親要素の半分下にずらす */
+    top: 50%;                    /* 親要素の半分下にずらす */
     left: 50%;                   /* 親要素の半分右にずらす */
     transform: translateY(-50%) translateX(-50%);    /* 要素自体の半分、上と左にずらす */
     padding: 20px;               /* 余白指定 */
@@ -53,7 +53,7 @@ const goToHomePage = () => {
 
 .heading-026-1 {
     color: #eeeeee;
-    font-size: 1.8em;
+    font-size: 1.6em;
 }
 
 .flex-container {
