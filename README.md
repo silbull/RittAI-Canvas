@@ -1,4 +1,4 @@
-# Texto3D 
+# RittAI Canvas 
 フロントの実装
 
 ## 実行方法
