@@ -5,3 +5,6 @@ dev_app/package-lock.json
 dev_app/package.json
 vuetify-project/
 
+/Users/miyakyudai1928/Texto3D/dev_app/frontend/node_modules
+dev_app/backend/app/controllers
+.env

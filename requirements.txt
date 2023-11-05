@@ -4,3 +4,4 @@ python-dotenv
 google-cloud-vision
 ndjson
 openai
+sympy
