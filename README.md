@@ -20,14 +20,22 @@ source .venv/bin/activate
 ```
 #### 2. ポートの立ち上げ
 ターミナルで以下の操作を行ってください．
+
 1. dev_appディレクトリに移動
 ```zsh:
 cd dev_app
 ```
 2. ポートの立ち上げ
+
+・ GPT-4によるGeogebra Script生成を使う
 ```zsh:
-python backend/app/app.py
+python backend_old/app/app.py
 ```
+・ GPT-3.5 + Function CallingによるGeogebra Script生成を使う
+```zsh:
+python backend_new/app/app.py
+```
+
 3. 表示されたURLにアクセス
 
 
