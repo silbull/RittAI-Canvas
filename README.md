@@ -78,7 +78,7 @@ OPENAI_API_KEY = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 OCR機能を使うためにはGoogle Vision APIのキーが必要です．
 [こちら](https://self-development.info/python%E3%81%A7google-cloud-vision-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/#google_vignette)の記事を参考にGoogle Cloud Platformのアカウントを作成し，Vision APIを有効化してください．以下の形式の秘密鍵(jsonファイル)がダウンロードされるので，ファイル名を'key.json'とし，'dev_app'フォルダの直下に配置してください．
 ```
-GOOGLE_APPLICATION_CREDENTIALS = '{
+{
     "type": "xxxx"
     "project_id": "xxxx",
     "private_key_id": "xxxx",
@@ -90,7 +90,7 @@ GOOGLE_APPLICATION_CREDENTIALS = '{
     "auth_provider_x509_cert_url": "xxxx",
     "client_x509_cert_url": "xxxx",
     "universe_domain": "xxxx"
-}'
+}
 ```
 
 
