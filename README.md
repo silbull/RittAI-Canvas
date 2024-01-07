@@ -1,5 +1,4 @@
 # RittAI Canvas 
-フロントの実装
 
 ## 実行方法
 
@@ -28,10 +27,32 @@ cd dev_app
 2. ポートの立ち上げ
 
 ・ GPT-4によるGeogebra Script生成を使う
+
+i)  dev_app/frontend/vue.config.jsの outputDir を`"../backend_old/app/dist"`に変更(defaultではこうなってます)
+```vue.config.js
+module.exports = defineConfig({
+  transpileDependencies: true,
+  assetsDir: "static",
+  outputDir: path.resolve(__dirname, "../backend_old/app/dist"),
+})
+```
+ii)ターミナルで以下を実行
 ```zsh:
 python backend_old/app/app.py
 ```
+
 ・ GPT-3.5 + Function CallingによるGeogebra Script生成を使う
+
+i)  dev_app/frontend/vue.config.jsの outputDir を`"../backend_new/app/dist"`に変更
+```vue.config.js
+module.exports = defineConfig({
+  transpileDependencies: true,
+  assetsDir: "static",
+  outputDir: path.resolve(__dirname, "../backend_new/app/dist"),
+})
+```
+
+ii)ターミナルで以下を実行
 ```zsh:
 python backend_new/app/app.py
 ```
@@ -72,3 +93,5 @@ GOOGLE_APPLICATION_CREDENTIALS = '{
     "universe_domain": "xxxx"
 }'
 ```
+
+
