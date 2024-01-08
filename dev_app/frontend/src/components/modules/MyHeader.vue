@@ -1,6 +1,6 @@
 <template>
     <header class="app_header-1" style="display: flex;">
-        <h2 class="heading-026">Ritt<span class="heading-026-1">AI</span> Vision</h2>
+        <h2 class="heading-026">Ritt<span class="heading-026-1">AI</span> Canvas</h2>
     </header>
     <div class="flex-container">
     <!-- <button class= "btn" v-on:click="goToHomePage">

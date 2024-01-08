@@ -40,9 +40,12 @@ def hello():
 def RunOCR():
     if request.method == "POST":
         # 身元証明書のjsonファイルを読み込む
-        load_dotenv()
-        google_credentials = os.getenv('GOOGLE_CREDENTIALS')
-        credentials = service_account.Credentials.from_service_account_info(json.loads(google_credentials))
+        # load_dotenv()
+        # google_credentials = os.getenv('GOOGLE_CREDENTIALS')
+        # breakpoint()
+        # google_credentials = json.loads(google_credentials)
+        
+        credentials = service_account.Credentials.from_service_account_file("key.json")
         
         # 画像解析メソッドを提供するクライアントを作成
         client = vision.ImageAnnotatorClient(credentials=credentials)
